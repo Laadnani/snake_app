@@ -154,7 +154,7 @@ Widget build(BuildContext context) {
     body: 
     
     Container( 
-      color:  const Color.fromARGB(255, 17, 17, 17),
+      color: const Color.fromARGB(255, 0, 0, 0),
       child: Column(
       
       children: [
@@ -202,7 +202,7 @@ Widget build(BuildContext context) {
                             ? const Color.fromARGB(255, 189, 188, 188)
                             : index == _snakeFoodPosition
                                 ? Colors.green
-                                : Color.fromARGB(255, 0, 0, 0),
+                                : const Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
                   );

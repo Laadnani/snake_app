@@ -12,7 +12,7 @@ class GameOver extends StatelessWidget {
         body: Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.blue,
+      color: const Color.fromARGB(255, 3, 3, 3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +43,7 @@ class GameOver extends StatelessWidget {
                   ])),
           const SizedBox(height: 50.0),
           Text('Your Score is: $score',
-              style: const TextStyle(color: Colors.white, fontSize: 20.0)),
+              style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20.0)),
           const SizedBox(height: 50.0),
  ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
@@ -55,10 +55,10 @@ class GameOver extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const GamePage()),
               );
             },
-            icon: const Icon(Icons.refresh, color: Colors.white, size: 30.0),
+            icon: const Icon(Icons.refresh, color: Color.fromARGB(255, 2, 2, 2), size: 30.0),
             label: const Text(
               "Try Again",
-              style: TextStyle(color: Colors.white, fontSize: 20.0),
+              style: TextStyle(color: Color.fromARGB(255, 14, 13, 13), fontSize: 20.0),
             ),
           ),
 
