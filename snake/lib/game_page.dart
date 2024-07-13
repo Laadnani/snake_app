@@ -111,110 +111,140 @@ class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
       });
     }
   }
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('SnakeGameFlutter',
-          style: TextStyle(color: Colors.white, fontSize: 16.0)),
-      centerTitle: false,
-      backgroundColor: const Color.fromARGB(255, 71, 60, 60),
-      actions: <Widget>[
-        Center(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Text('Score: $_playerScore',
-              style: const TextStyle(fontSize: 16.0, color: Colors.white)),
-        ))
-      ],
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color.fromARGB(255, 107, 92, 92),
-        elevation: 20,
-        label: Text(
-          _hasStarted ? 'Start' : 'Pause',
-          style: const TextStyle(),
-        ),
-        onPressed: () {
-          setState(() {
-            if (_hasStarted) {
-              _snakeController.forward();
-            } else {
-              _snakeController.reverse();
-            }
-            _hasStarted = !_hasStarted;
-            _gameStart();
-          });
-        },
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.play_pause,
-          progress: _snakeAnimation,
-        )),
-    body: 
-    
-    Container( 
-      color: const Color.fromARGB(255, 0, 0, 0),
-      child: Column(
-      
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onVerticalDragUpdate: (drag) {
-              if (drag.delta.dy > 0 && _currentSnakeDirection != 'UP') {
-                _currentSnakeDirection = 'DOWN';
-              } else if (drag.delta.dy < 0 &&
-                  _currentSnakeDirection != 'DOWN')
-                // ignore: curly_braces_in_flow_control_structures
-                _currentSnakeDirection = 'UP';
-            },
-            onHorizontalDragUpdate: (drag) {
-              if (drag.delta.dx > 0 && _currentSnakeDirection != 'LEFT') {
-                _currentSnakeDirection = 'RIGHT';
-              } else if (drag.delta.dx < 0 &&
-                  _currentSnakeDirection != 'RIGHT')
-                // ignore: curly_braces_in_flow_control_structures
-                _currentSnakeDirection = 'LEFT';
-            },
-            // ignore: sized_box_for_whitespace
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: GridView.builder(
-                itemCount: _squareSize + _noOfSquares,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _squareSize,
-                  mainAxisSpacing: 0,
-                  crossAxisSpacing: 0,
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Snaky',
+            style: TextStyle(color: Colors.white, fontSize: 16.0)),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 71, 60, 60),
+        actions: <Widget>[
+          Center(
+              child: Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: Text('Score: $_playerScore',
+                style: const TextStyle(fontSize: 16.0, color: Colors.white)),
+          ))
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: const Color.fromARGB(255, 107, 92, 92),
+          elevation: 20,
+          label: Text(
+            _hasStarted ? 'Start' : 'Pause',
+            style: const TextStyle(),
+          ),
+          onPressed: () {
+            setState(() {
+              if (_hasStarted) {
+                _snakeController.forward();
+              } else {
+                _snakeController.reverse();
+              }
+              _hasStarted = !_hasStarted;
+              _gameStart();
+            });
+          },
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.play_pause,
+            progress: _snakeAnimation,
+          )),
+      body: Container(
+        color: const Color.fromARGB(255, 0, 0, 0),
+        child: Column(
+          children: [
+            Expanded(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: GridView.builder(
+                  itemCount: _squareSize + _noOfSquares,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _squareSize,
+                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 0,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          index == _snakeFoodPosition || index == _snake.last
+                              ? 7
+                              : 2.5,
+                        ),
+                        child: Container(
+                          color: _snake.contains(index)
+                              ? const Color.fromARGB(255, 189, 188, 188)
+                              : index == _snakeFoodPosition
+                                  ? Colors.green
+                                  : const Color.fromARGB(255, 0, 0, 0),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        index == _snakeFoodPosition || index == _snake.last
-                            ? 7
-                            : 2.5,
-                      ),
-                      child: Container(
-                        color: _snake.contains(index)
-                            ? const Color.fromARGB(255, 189, 188, 188)
-                            : index == _snakeFoodPosition
-                                ? Colors.green
-                                : const Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                  );
-                },
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only (bottom: 80.0),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_currentSnakeDirection != 'DOWN') {
+                        setState(() {
+                          _currentSnakeDirection = 'UP';
+                        });
+                      }
+                    },
+                    child: const Text('Up'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_currentSnakeDirection != 'RIGHT') {
+                            setState(() {
+                              _currentSnakeDirection = 'LEFT';
+                            });
+                          }
+                        },
+                        child: const Text('Left'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_currentSnakeDirection != 'LEFT') {
+                            setState(() {
+                              _currentSnakeDirection = 'RIGHT';
+                            });
+                          }
+                        },
+                        child: const Text('Right'),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_currentSnakeDirection != 'UP') {
+                        setState(() {
+                          _currentSnakeDirection = 'DOWN';
+                        });
+                      }
+                    },
+                    child: const Text('Down'),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-
-      ],
-    ),
-    ),
-  );
-} 
+      ),
+    );
+  }
 }

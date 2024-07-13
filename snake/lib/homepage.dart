@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/snake_game.png'),
           const SizedBox(height: 50.0),
-          const Text('SNAKY',
+          const Text('SNAKE',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
